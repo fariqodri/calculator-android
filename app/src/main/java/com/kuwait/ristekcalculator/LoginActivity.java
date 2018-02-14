@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,11 +30,12 @@ public class LoginActivity extends AppCompatActivity {
         final AutoCompleteTextView username = findViewById( R.id.usernameFill );
         final Button signIn = findViewById( R.id.signIn );
         Button signUp = findViewById( R.id.signUp );
-        CheckBox show = findViewById( R.id.showPassword );
+        final CheckBox show = findViewById( R.id.showPassword );
         final ArrayList<String> usernames = new ArrayList<>(  );
         final EditText password = findViewById( R.id.passwordFill );
         final SharedPreferences data = this.getPreferences( Context.MODE_PRIVATE );
-        ArrayAdapter<String> adapter = new ArrayAdapter<>( this, android.R.layout.simple_list_item_1, usernames);
+        Set<String> names = data.getAll().keySet();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names.toArray(new String[names.size()]));
         username.setAdapter( adapter );
         show.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -49,21 +52,31 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final SharedPreferences.Editor write = data.edit();
-                write.putString( signIn.getText().toString(), password.getText().toString() );
-                write.commit();
-                username.setText( "" );
-                password.setText( "" );
-                Toast.makeText(LoginActivity.this, "You have been registered, please login with account" +
-                        "you just registered", Toast.LENGTH_LONG).show();
+                String signedUpName = username.getText().toString();
+                String signedUpPassword = password.getText().toString();
+                if(signedUpName.equals("") || signedUpPassword.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Your username or password can't be empty", Toast.LENGTH_LONG).show();
+                }
+                else if(data.getAll().containsKey(signedUpName)) {
+                    Toast.makeText(LoginActivity.this, "Sorry, username: " + signedUpName + " has been taken", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    write.putString( signedUpName, signedUpPassword);
+                    write.commit();
+                    username.setText( "" );
+                    password.setText( "" );
+                    show.setChecked(false);
+                    Toast.makeText(LoginActivity.this, "You have been registered, please login with account" +
+                            " you just registered", Toast.LENGTH_LONG).show();
+                }
             }
         } );
         signIn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String uname = username.getText().toString();
-                usernames.add( uname );
                 String passwordData = data.getString( uname, null );
-                if(password == null) {
+                if(passwordData == null) {
                     Toast.makeText(LoginActivity.this, "There's no account with username: " + uname + ". Please sign up first", Toast.LENGTH_LONG).show();
                 }
                 else if(!passwordData.equals( password.getText().toString() )){
