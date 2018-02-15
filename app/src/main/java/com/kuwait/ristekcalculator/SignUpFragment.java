@@ -9,12 +9,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -67,7 +70,7 @@ public class SignUpFragment extends AppCompatDialogFragment {
                         }
                         else{
                             write.putString( signedUpName, signedUpPassword);
-                            write.commit();
+                            write.apply();
                             username.setText( "" );
                             password.setText( "" );
                             show.setChecked(false);
