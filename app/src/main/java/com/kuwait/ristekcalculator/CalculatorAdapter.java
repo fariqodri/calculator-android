@@ -46,6 +46,10 @@ public class CalculatorAdapter extends BaseAdapter {
             view.setVisibility( View.GONE );
         }
         final TextView textView = view.findViewById( R.id.calculatorButton);
+        if(written.equals("+") || written.equals("-") || written.equals("/") || written.equals("*") || written.equals("C") || written.equals("DEL") || written.equals("=")) {
+            view.setBackgroundColor(view.getResources().getColor(R.color.colorPrimary));
+            textView.setTextColor(textView.getResources().getColor(R.color.oppColor));
+        }
         textView.setText( written );
         return view;
     }

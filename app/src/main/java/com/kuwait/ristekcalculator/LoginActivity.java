@@ -40,14 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         final CheckBox show = findViewById(R.id.showPassword);
         final EditText password = findViewById(R.id.passwordFill);
         data = this.getPreferences(Context.MODE_PRIVATE);
-//        Set<String> names = data.getStringSet( "input\'10001", null );
-//        if(names == null) {
-//            names = new HashSet<>(  );
-//        }
         final SharedPreferences.Editor write = data.edit();
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names.toArray(new String[names.size()]));
-//        username.setAdapter(adapter);
         new Asynchronous().execute(  );
+        Log.d("LIST ON CREATE", data.getStringSet("input\'10001", null).toString());
         show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -58,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-//
+
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 write.putStringSet( "input\'10001", namesIn );
                 write.apply();
                 new Asynchronous().execute(  );
-//                Log.d("INS", data.getStringSet( "input\'10001", null ).toString());
+                Log.d("LIST ON CLICK", data.getStringSet("input\'10001", null).toString());
                 if (passwordData == null) {
                     Toast.makeText(LoginActivity.this, "There's no account with username: " + uname + ". Please sign up first", Toast.LENGTH_LONG).show();
                 } else if (!passwordData.equals(password.getText().toString())) {
@@ -80,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(LoginActivity.this, CalculatorActivity.class);
                     startActivity(i);
-                    finish();
+                    username.setText("");
+                    password.setText("");
                 }
             }
         });
@@ -109,10 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected ArrayAdapter<String> doInBackground(Void... pref) {
             Set<String> names = data.getStringSet( "input\'10001", null );
-            if (names == null) {
-                names = new HashSet<>();
-            }
-//            Log.d( "HAHA", names.toString() );
+            if(names == null) names = new HashSet<>(  );
             ArrayAdapter<String> adapter = new ArrayAdapter<>( LoginActivity.this, android.R.layout.simple_list_item_1, names.toArray( new String[names.size()] ) );
             return adapter;
         }
@@ -122,5 +115,12 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute( aVoid );
             username.setAdapter( aVoid );
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SharedPreferences data = this.getPreferences(Context.MODE_PRIVATE);
+        Log.d("LIST ON DESTTOY", data.getStringSet("input\'10001", null).toString());
     }
 }

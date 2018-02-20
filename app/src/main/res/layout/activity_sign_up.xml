@@ -1,62 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="5dp">
-        <LinearLayout
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/usernameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-            <TextView
-                android:id="@+id/usernameLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/usernameLabel"
-                android:textColor="@color/textColor"/>
-            <AutoCompleteTextView
-                android:id="@+id/usernameFill"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:imeOptions="actionNext"/>
-        </LinearLayout>
+            android:text="@string/usernameLabel"
+            android:textColor="@color/textColor" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/usernameFill"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/passwordLabel"
-                android:text="@string/passwordLabel"
-                android:textColor="@color/textColor"/>
-            <EditText
-                android:id="@+id/passwordFill"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:imeOptions="actionGo"/>
-        </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/showPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/showPassword"
-            android:textColor="@color/textColor"/>
-
+            android:focusedByDefault="true"
+            android:imeOptions="actionNext" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/passwordLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/passwordLabel"
+            android:textColor="@color/textColor" />
+
+        <EditText
+            android:id="@+id/passwordFill"
+            style="@style/Widget.Design.TextInputLayout"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionGo"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/showPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/showPassword"
+        android:textColor="@color/textColor" />
+</android.support.v7.widget.LinearLayoutCompat>
