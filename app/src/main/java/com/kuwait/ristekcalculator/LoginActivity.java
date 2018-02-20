@@ -1,12 +1,10 @@
 package com.kuwait.ristekcalculator;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -25,7 +23,6 @@ import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class LoginActivity extends AppCompatActivity {
     SharedPreferences data;
@@ -42,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         data = this.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor write = data.edit();
         new Asynchronous().execute(  );
+        Log.d("LIST ON CREATE", data.getStringSet("input\'10001", null).toString());
         show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -52,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-//
+
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 write.putStringSet( "input\'10001", namesIn );
                 write.apply();
                 new Asynchronous().execute(  );
-//                Log.d("INS", data.getStringSet( "input\'10001", null ).toString());
+                Log.d("LIST ON CLICK", data.getStringSet("input\'10001", null).toString());
                 if (passwordData == null) {
                     Toast.makeText(LoginActivity.this, "There's no account with username: " + uname + ". Please sign up first", Toast.LENGTH_LONG).show();
                 } else if (!passwordData.equals(password.getText().toString())) {
@@ -74,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Intent i = new Intent(LoginActivity.this, CalculatorActivity.class);
                     startActivity(i);
-                    finish();
+                    username.setText("");
+                    password.setText("");
                 }
             }
         });
@@ -103,9 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected ArrayAdapter<String> doInBackground(Void... pref) {
             Set<String> names = data.getStringSet( "input\'10001", null );
-            if (names == null) {
-                names = new HashSet<>();
-            }
+            if(names == null) names = new HashSet<>(  );
             ArrayAdapter<String> adapter = new ArrayAdapter<>( LoginActivity.this, android.R.layout.simple_list_item_1, names.toArray( new String[names.size()] ) );
             return adapter;
         }
