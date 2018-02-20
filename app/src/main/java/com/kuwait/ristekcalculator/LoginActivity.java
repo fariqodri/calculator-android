@@ -40,13 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         final CheckBox show = findViewById(R.id.showPassword);
         final EditText password = findViewById(R.id.passwordFill);
         data = this.getPreferences(Context.MODE_PRIVATE);
-//        Set<String> names = data.getStringSet( "input\'10001", null );
-//        if(names == null) {
-//            names = new HashSet<>(  );
-//        }
         final SharedPreferences.Editor write = data.edit();
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names.toArray(new String[names.size()]));
-//        username.setAdapter(adapter);
         new Asynchronous().execute(  );
         show.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -112,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
             if (names == null) {
                 names = new HashSet<>();
             }
-//            Log.d( "HAHA", names.toString() );
             ArrayAdapter<String> adapter = new ArrayAdapter<>( LoginActivity.this, android.R.layout.simple_list_item_1, names.toArray( new String[names.size()] ) );
             return adapter;
         }
